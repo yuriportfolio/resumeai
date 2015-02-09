@@ -18,10 +18,30 @@ app.m.twitter="@lukedavis";
 app.m.linkedin="linkedin.com/specialsnowflake";
 
 app.m.projects=[
-  {title:"Lexponential",exposition:"the best language blah blah blah"},
-  {title:"Resumai",exposition:"ai resume designer"},
-  {title:"Coloroordinates",exposition:"displays the color contents of an image in 3 space"},
-  {title:"Iconaria",exposition:"machine-generated art: logos for open source projects"}
+  {
+    title:"Lexponential",
+    exposition:"the best second-semester foreign-language vocabulary learning app in history",
+    role:"Creator",
+    notes:"(Backbone, Parse)"
+  },
+  {
+    title:"Resumai",
+    exposition:"ai resume designer",
+    role:"Creator",
+    notes:"(Evolutionary Algorithm, Backbone)"
+  },
+  {
+    title:"Coloroordinates",
+    exposition:"displays the color contents of an image in 3 space",
+    role:"Creator",
+    notes:"(THREE JS, HTML5 Canvas)"
+  },
+  {
+    title:"Iconaria",
+    exposition:"machine-generated art: logos for open source projects",
+    role:"Creator",
+    notes:"(HTML5 Canvas, Procedural Generation)"
+  }
 ];
 
 app.m.positions=[
@@ -56,11 +76,43 @@ app.v.init=function(){
 
 app.t.resume=function(){
   var d="";
+  d+="<div class='screen-wrapper'>";
+    d+=app.t.layouts();
+  d+="</div>";
+  return d;
+};
+
+app.t.layouts=function(){
+  return _.sample([app.t.sequential(),app.t.sideBySide()])
+};
+
+app.t.sequential=function(){
+  var d="";
   d+=app.t.name();
   d+=app.t.contactInformation();
+  d+=app.t.technologies();
   d+=app.t.projects();
   d+=app.t.positions();
   d+=app.t.personalNote();
+  return d;
+};
+
+app.t.sideBySide=function(){
+  var d="";
+  d+="<table>";
+    d+="<tr>";
+      d+="<td>"
+        d+=app.t.name();
+        d+=app.t.contactInformation();
+      d+="</td>";
+      d+="<td>";
+        d+=app.t.technologies();
+        d+=app.t.projects();
+        d+=app.t.positions();
+        d+=app.t.personalNote();
+      d+="</td>";
+    d+="</tr>";
+  d+="</table>";
   return d;
 };
 
@@ -72,7 +124,7 @@ app.t.name=function(){
 
 app.t.contactInformation=function(){
   var d="";
-  d+="<div id='contact-information'>";
+  d+="<div id='contact-information' class='section'>";
     d+="<div id='contact-email'>email: "+app.m.email+"</div>";
     d+="<div id='contact-phone'>phone: "+app.m.phone+"</div>";
     d+="<div id='contact-twitter'>twitter: "+app.m.twitter+"</div>";
@@ -93,11 +145,28 @@ app.t.project=function(project){
 app.t.projects=function(){
   var projects=app.m.projects;
   var d="";
+  d+="<div id='projects' class='section'>";
   d+="<div class='section-title'>Recent Projects</div>";
-  d+="<div id='projects'>";
     for (var i=0;i<projects.length;i++){
       d+=app.t.project(projects[i]);
     }
+  d+="</div>";
+  return d;
+};
+
+app.t.technologies=function(){
+  var d="";
+  d+="<div class='section'>";
+    d+="<div class='section-title'>Strengths</div>";
+      for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
+        a.push("<span class='technology-strength'>"+app.m.technologies.strengths[i]+"</span>");
+      }
+    d+=a.join(" ");
+    d+="<div class='section-title'>Experienced</div>";
+      for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
+        a.push("<span class='technology-experience'>"+app.m.technologies.experience[i]+"</span>");
+      }
+    d+=a.join(" ");
   d+="</div>";
   return d;
 };
@@ -116,19 +185,22 @@ app.t.position=function(position){
 app.t.positions=function(){
   var positions=app.m.positions;
   var d="";
-  d+="<div class='section-title'>Prior Positions</div>";
-  for (var i=0;i<positions.length;i++){
-    d+=app.t.position(positions[i]);
-  }
+  d+="<div class='section'>";
+    d+="<div class='section-title'>Prior Positions</div>";
+    for (var i=0;i<positions.length;i++){
+      d+=app.t.position(positions[i]);
+    }
+  d+="</div>";
   return d;
 };
 
 app.t.personalNote=function(){
   var personalNote=app.m.personalNote;
   var d="";
-  
-  d+="<div class='section-title'>A Personal Note:</div>";
-  d+="<div id='personal-note'>"+personalNote+"</div>";
+  d+="<div  class='section'>";
+    d+="<div class='section-title'>A Personal Note:</div>";
+    d+="<div id='personal-note'>"+personalNote+"</div>";
+  d+="</div>";
   return d;
 };
 
@@ -136,18 +208,33 @@ app.t.personalNote=function(){
 
 zi={};
 zi.config=function(){
-    var css={
-      "body":{
-        "font-size":(0.1*_.random(8,20))+"em"
-      },
-      "#name":{
-        "font-size":(0.1*_.random(20,50))+"em"
-      },
-      ".section-title":{
-        "font-size":(0.1*_.random(8,20))+"em"
-      }
-    };
-    return css;
+  var grey=davis.randomColor("gray");
+  
+  
+  var css={
+    "body":{
+      "background":"#ccc",
+      "font-size":(0.1*_.random(8,15))+"em"
+    },
+    "table td":{
+      "vertical-align":_.sample(["top","bottom"])
+    },
+    "#name":{
+      "font-size":(0.1*_.random(20,50))+"em"
+    },
+    ".section-title":{
+      "font-size":(0.1*_.random(8,20))+"em"
+    },
+    ".section":{
+      "border-bottom":(_.random(0,5)+"px solid "+grey)
+    },
+    ".screen-wrapper":{
+      "background":"#fff",
+      "margin":"20px",
+      "padding":"20px"
+    }
+  };
+  return css;
 };
 zi.transform=function(css){
     var c="";
