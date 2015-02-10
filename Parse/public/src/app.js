@@ -15,24 +15,30 @@ app.m.name="Luke Davis";
 app.m.phone="(415) 610-2391";
 app.m.email="lucaswadedavis@gmail.com";
 app.m.twitter="@lukedavis";
-app.m.linkedin="linkedin.com/specialsnowflake";
+app.m.linkedin="linkedin.com/luke";
 
 app.m.projects=[
   {
     title:"Lexponential",
-    exposition:"the best second-semester foreign-language vocabulary learning app in history",
+    exposition:"Accelerates foreign language vocabulary acquisition by using Zipf’s Law and the Google Translate API",
     role:"Creator",
-    notes:"(Backbone, Parse)"
+    notes:"(Backbone, Parse, Stripe)"
   },
   {
-    title:"Resumai",
+    title:"ResumeAI",
     exposition:"ai resume designer",
     role:"Creator",
-    notes:"(Evolutionary Algorithm, Backbone)"
+    notes:"(Evolutionary Algorithm, CSS3 Print Layouts)"
+  },
+  {
+    title:"Faux Poe",
+    notes:"(Procedural Generation, Parse, Express, Mandrill, Coinbase API)",
+    exposition:"Procedurally generates imitation Edgar Allan Poe verse and sells it for Bitcoin",
+    role:"Creator"
   },
   {
     title:"Coloroordinates",
-    exposition:"displays the color contents of an image in 3 space",
+    exposition:"Displays the colors of an uploaded image by projecting the  red, green, and blue color values of each pixel in the image along the x, y, and z axes in 3-space",
     role:"Creator",
     notes:"(THREE JS, HTML5 Canvas)"
   },
@@ -45,16 +51,28 @@ app.m.projects=[
 ];
 
 app.m.positions=[
-  {title:"Software Engineer",exposition:"built some stuff - it's classified.",period:"2013-2014",organization:"NSA"},
-  {title:"Mission Manager",exposition:"managed some stuff",period:"2011-2013",organization:"NSA"},
-  {title:"Cryptologic Technician (Interpretive)",exposition:"translated Arabic",period:"2009-2011",organization:"USN"}
+  {
+    title:"Software Engineer",
+    exposition:"Built over 2 dozen user-facing applications used daily by over REDACTED individuals, in areas spanning REDACTED, REDACTED, scheduling, productivity tools, and data visualization",
+    period:"2013-2014",
+    organization:"NSA"},
+  {
+    title:"Mission Manager",
+    exposition:"Managed a team of highly qualified personnel from all branches of the armed service, civilians, and contractors in pursuit of national level military objectives",
+    period:"2011-2013",
+    organization:"NSA"},
+  {
+    title:"Cryptologic Technician, Interpretive",
+    exposition:"Graduated from the intensive two year Modern Standard Arabic training program at the Defense Language Institute and went on to become an Arabic translator at the National Security Agency during the last days of the  American drawdown in Iraq and the beginning of the Arab Spring",
+    period:"2009-2011",
+    organization:"USN"}
 ];
 
 app.m.personalNote="blah blah blah, stuff and things";
 
 app.m.technologies={
-  strengths:["javascript","node","express","backbone","jquery","html5 Canvas","data visualization"],
-  experience:["python","sql","mongo","REST","AJAX","Buzzwords..."]
+  strengths:["Evolutionary Algormithms","Javascript","Node","Express","Backbone","jQuery","HTML5 Canvas","Data Visualization"],
+  experience:["Python","SQL","Mongo","REST","AJAX","Git","TDD"]
 };
 
 ////////////////////////////////////////////
@@ -111,12 +129,33 @@ app.t.sequential=function(){
     d+="</tr>";
     d+="</table>";
   },function(){
-    d+=app.t.name();
-    d+=app.t.contactInformation();
-    d+=app.t.technologies();
-    d+=app.t.projects();
-    d+=app.t.positions();
-    d+=app.t.personalNote();
+    d+="<table>";
+    d+="<tr>";
+      d+="<td>";
+        d+=app.t.name();
+      d+="</td>";
+      d+="<td>";
+        d+=app.t.contactInformation();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td colspan=2>";
+        d+=app.t.technologies();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td class='col-2'>";
+        d+=app.t.projects();
+      d+="</td><td>";
+        d+=app.t.positions();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td colspan=2>";
+        d+=app.t.personalNote();
+      d+="</td>";
+    d+="</tr>";
+    d+="</table>";
   });
   return d;
 };
@@ -161,6 +200,7 @@ app.t.project=function(project){
   var d="";
   d+="<div>";
     d+="<span class='project-title'>"+project.title+"</span>";
+    d+="<span class='project-notes'> "+project.notes+"</span>";
     d+="<div>"+project.exposition+"</div>";
   d+="</div>";
   return d;
@@ -185,12 +225,12 @@ app.t.technologies=function(){
       for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
         a.push("<span class='technology-strength'>"+app.m.technologies.strengths[i]+"</span>");
       }
-    d+=a.join(" ");
-    d+="<div class='section-title'>Experienced</div>";
+    d+=a.join(", ");
+    d+="<div class='section-title'>Experience</div>";
       for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
         a.push("<span class='technology-experience'>"+app.m.technologies.experience[i]+"</span>");
       }
-    d+=a.join(" ");
+    d+=a.join(", ");
   d+="</div>";
   return d;
 };
@@ -198,9 +238,11 @@ app.t.technologies=function(){
 app.t.position=function(position){
   var d="";
   d+="<div>";
-    d+="<span class='position-title'>"+position.title+"</span>";
-    d+="<span class='position-organization'> ("+position.organization+") </span>";
-    d+="<span class='position-period'>"+position.period+"</span>";
+    d+="<div  class='position-metadata'>";
+      d+="<span class='position-title'>"+position.title+"</span>";
+      d+="<span class='position-organization'> ("+position.organization+") </span>";
+      d+="<span class='position-period'>"+position.period+"</span>";
+    d+="</div>";
     d+="<div>"+position.exposition+"</div>";
   d+="</div>";
   return d;
@@ -209,7 +251,7 @@ app.t.position=function(position){
 app.t.positions=function(){
   var positions=app.m.positions;
   var d="";
-  d+="<div class='section'>";
+  d+="<div class='section' id='positions'>";
     d+="<div class='section-title'>Prior Positions</div>";
     for (var i=0;i<positions.length;i++){
       d+=app.t.position(positions[i]);
@@ -233,21 +275,27 @@ app.t.personalNote=function(){
 zi={};
 zi.config=function(){
   var grey=davis.randomColor("gray");
-  
+  var margin=(_.random(5,10))+"px";
   
   var css={
     "body":{
       "margin":"0",
       "padding":"0",
       "background":"#ccc",
-      "font-size":(0.1*_.random(8,15))+"em",
+      "font-size":(0.1*_.random(10,11))+"em",
       "font-family":_.sample(["arial","times","garamond","verdana"])
     },
     "table td":{
-      "vertical-align":_.sample(["top","bottom"])
+      "vertical-align":"top"
+    },
+    "td.col-2":{
+      "width":"50%"
     },
     "table":{
       "width":"100%"
+    },
+    "#contact-information":{
+      "font-size":(0.1*_.random(5,8))+"em"
     },
     "#name":{
       "font-size":(0.1*_.random(20,50))+"em"
@@ -263,12 +311,40 @@ zi.config=function(){
     },
     ".position-period":{
       "float":"right"
+    },
+    ".position-metadata":{
+    },
+    ".project-title":{
+    },
+    ".project-notes":{
+    },
+    ".section":{
+      "margin-bottom":margin
     }
   };
   
   davis.maybe(0.5,function(){
     css["#name"]["color"]="#fff";
     css["#name"]["background"]=grey;
+    css["#name"]["text-align"]="center";
+    css["#name"]["padding"]=(_.random(20,50) )+"px";
+  });
+  
+  /*
+  davis.maybe(0.5,function(){
+    css["#name"]["text-align"]="right";
+    css["#contact-information"]["text-align"]="right";
+  });
+  */
+  
+  davis.maybe(0.5,function(){
+    css[".position-metadata"]["font-weight"]="bold";
+    css[".project-title"]["font-weight"]="bold";
+    css[".project-notes"]["font-weight"]="bold";
+  },function(){
+    css[".position-metadata"]["color"]=grey;
+    css[".project-title"]["color"]=grey;
+    css[".project-notes"]["color"]=grey;
   });
   
   davis.maybe(0.5,function(){
@@ -276,6 +352,7 @@ zi.config=function(){
   },function(){
     css[".section-title"]["color"]="#fff";
     css[".section-title"]["background"]=grey;
+    css[".section-title"]["padding"]=(_.random(5,10))+"px";
   });
   
   return css;
