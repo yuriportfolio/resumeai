@@ -85,12 +85,12 @@ app.c.init=function(){
 };
 
 app.c.fontIncrement=function(){
-  app.m.fontSize+=0.05;
+  app.m.fontSize+=0.02;
   app.v.fontMod();
 };
 
 app.c.fontDecrement=function(){
-  app.m.fontSize=Math.max(app.m.fontSize-0.05,0.1);
+  app.m.fontSize=Math.max(app.m.fontSize-0.02,0.1);
   app.v.fontMod();
 };
 
@@ -130,7 +130,8 @@ app.t.resume=function(){
 };
 
 app.t.layouts=function(){
-  return _.sample([
+  return app.t.hybrid();
+  _.sample([
     app.t.sequential(),
     app.t.sideBySide(),
     app.t.hybrid()
@@ -163,6 +164,7 @@ app.t.hybrid=function(){
     d+="<tr>";
       d+="<td>";
         d+=app.t.name();
+        d+=app.t.photo();
       d+="</td>";
       d+="<td>";
         d+=app.t.contactInformation();
@@ -243,6 +245,8 @@ app.t.sequential=function(){
   return d;
 };
 
+
+
 app.t.sideBySide=function(){
   var d="";
   davis.maybe(0.5,function(){
@@ -283,6 +287,10 @@ app.t.name=function(){
   var d="";
   d+="<div id='name'>"+app.m.name+"</div>";
   return d;
+};
+
+app.t.photo=function(){
+  return "<div id='canvas'></div>";
 };
 
 app.t.contactInformation=function(){
@@ -400,14 +408,15 @@ zi.config=function(){
     },
     "#navigation span":{
       "padding":"25px",
-      "margin":"5px",
+      "margin-right":"40px",
       "width":"200px",
       "text-align":"center",
       "background":"#fff",
       "border":"1px solid #000",
       "cursor":"pointer",
       "font-size":"20px",
-      "font-weight":"bold"
+      "font-weight":"bold",
+      "font-family":"courier"
     },
     "table td":{
       "vertical-align":"top"
