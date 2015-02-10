@@ -11,6 +11,8 @@ app.t={};
 
 ////////////////////////////////////////////
 
+app.m.fontSize=1;
+
 app.m.name="Luke Davis";
 app.m.phone="(415) 610-2391";
 app.m.email="lucaswadedavis@gmail.com";
@@ -27,7 +29,7 @@ app.m.projects=[
   },
   {
     title:"ResumeAI",
-    exposition:"ai resume designer (crafted the resume you're reading now, actually)",
+    exposition:"AI resume designer (crafted the resume you're reading now, actually)",
     role:"Creator",
     notes:"(Evolutionary Algorithm, CSS3 Print Layouts)"
   },
@@ -80,24 +82,50 @@ app.m.technologies={
 
 app.c.init=function(){
   app.v.init();
-}
+};
+
+app.c.fontIncrement=function(){
+  app.m.fontSize+=0.05;
+  app.v.fontMod();
+};
+
+app.c.fontDecrement=function(){
+  app.m.fontSize=Math.max(app.m.fontSize-0.05,0.1);
+  app.v.fontMod();
+};
 
 ////////////////////////////////////////////
 
 app.v.init=function(){
   zi.css();
-
-  $("body").html(app.t.resume() );
+  
+  var d="<div class='screen-wrapper'></div>";
+  d+="<div id='navigation'><span id='increment'>+</span></span><span id='decrement'>-</span></div>";
+  $("body").html(d);
+  $(".screen-wrapper").html(app.t.resume() );
+  
+  $("#increment").on("click",function(){
+    app.c.fontIncrement();
+  });
+  $("#decrement").on("click",function(){
+    app.c.fontDecrement();
+  });
 };
 
+
+app.v.fontMod=function(){
+  var d="body{font-size:"+app.m.fontSize+"em;}";
+  if ($("head style#font-mod").length<1){
+    $("head").append("<style type='text/css' id='font-mod'></style>");
+  }
+  $("head style#font-mod").html(d);
+};
 
 ////////////////////////////////////////////
 
 app.t.resume=function(){
   var d="";
-  d+="<div class='screen-wrapper'>";
     d+=app.t.layouts();
-  d+="</div>";
   return d;
 };
 
@@ -358,8 +386,28 @@ zi.config=function(){
       "margin":"0",
       "padding":"0",
       "background":"#ccc",
-      "font-size":(0.1*_.random(10,11))+"em",
+      "font-size":app.m.fontSize+"em",
       "font-family":_.sample(["arial","times","garamond","verdana"])
+    },
+    "#navigation":{
+      "position":"fixed",
+      "top":"0px",
+      "width":"100%",
+      "background":"#000",
+      "opacity":"0.7",
+      "overflow":"hidden",
+      "text-align":"right"
+    },
+    "#navigation span":{
+      "padding":"25px",
+      "margin":"5px",
+      "width":"200px",
+      "text-align":"center",
+      "background":"#fff",
+      "border":"1px solid #000",
+      "cursor":"pointer",
+      "font-size":"20px",
+      "font-weight":"bold"
     },
     "table td":{
       "vertical-align":"top"
