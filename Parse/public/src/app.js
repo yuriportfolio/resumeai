@@ -16,6 +16,7 @@ app.m.phone="(415) 610-2391";
 app.m.email="lucaswadedavis@gmail.com";
 app.m.twitter="@lukedavis";
 app.m.linkedin="linkedin.com/luke";
+app.m.github="http://github.com/lucaswadedavis";
 
 app.m.projects=[
   {
@@ -26,13 +27,13 @@ app.m.projects=[
   },
   {
     title:"ResumeAI",
-    exposition:"ai resume designer",
+    exposition:"ai resume designer (crafted the resume you're reading now, actually)",
     role:"Creator",
     notes:"(Evolutionary Algorithm, CSS3 Print Layouts)"
   },
   {
     title:"Faux Poe",
-    notes:"(Procedural Generation, Parse, Express, Mandrill, Coinbase API)",
+    notes:"(Parse, Express, Mandrill, Coinbase API)",
     exposition:"Procedurally generates imitation Edgar Allan Poe verse and sells it for Bitcoin",
     role:"Creator"
   },
@@ -68,11 +69,11 @@ app.m.positions=[
     organization:"USN"}
 ];
 
-app.m.personalNote="blah blah blah, stuff and things";
+app.m.personalNote="Vegetarian, Lover of Dinosaurs and Space-Things, Southerner, Darwinian";
 
 app.m.technologies={
-  strengths:["Evolutionary Algormithms","Javascript","Node","Express","Backbone","jQuery","HTML5 Canvas","Data Visualization"],
-  experience:["Python","SQL","Mongo","REST","AJAX","Git","TDD"]
+  strengths:["Evolutionary Algormithms","Javascript","Node","Express","Backbone","jQuery","HTML5 Canvas","Data Visualization","Git"],
+  experience:["Python","SQL","Angular","Mongo","REST","Continuous Intigration (Travis, Circle CI, etc...)","TDD (Mocha, Chai, etc...)"]
 };
 
 ////////////////////////////////////////////
@@ -103,8 +104,62 @@ app.t.resume=function(){
 app.t.layouts=function(){
   return _.sample([
     app.t.sequential(),
-    app.t.sideBySide()
+    app.t.sideBySide(),
+    app.t.hybrid()
     ]);
+};
+
+app.t.hybrid=function(){
+  var d="";
+  davis.maybe(0.5,function(){
+    d+="<table>";
+    d+="<tr>";
+      d+="<td colspan=2>";
+        d+=app.t.name();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td>";
+        d+=app.t.personalNote();
+        d+=app.t.contactInformation();
+      d+="</td>";
+      d+="<td>";
+        d+=app.t.technologies();
+        d+=app.t.projects();
+        d+=app.t.positions();
+      d+="</td>";
+    d+="</tr>";
+    d+="</table>";
+  },function(){
+    d+="<table>";
+    d+="<tr>";
+      d+="<td>";
+        d+=app.t.name();
+      d+="</td>";
+      d+="<td>";
+        d+=app.t.contactInformation();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td colspan=2>";
+        d+=app.t.technologies();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td class='col-2'>";
+        d+=app.t.projects();
+      d+="</td><td>";
+        d+=app.t.positions();
+      d+="</td>";
+    d+="</tr>";
+    d+="<tr>";
+      d+="<td colspan=2>";
+        d+=app.t.personalNote();
+      d+="</td>";
+    d+="</tr>";
+    d+="</table>";
+  });
+  return d;
 };
 
 app.t.sequential=function(){
@@ -162,20 +217,37 @@ app.t.sequential=function(){
 
 app.t.sideBySide=function(){
   var d="";
-  d+="<table>";
-    d+="<tr>";
-      d+="<td>"
-        d+=app.t.name();
-        d+=app.t.contactInformation();
-      d+="</td>";
-      d+="<td>";
-        d+=app.t.technologies();
-        d+=app.t.projects();
-        d+=app.t.positions();
-        d+=app.t.personalNote();
-      d+="</td>";
-    d+="</tr>";
-  d+="</table>";
+  davis.maybe(0.5,function(){
+    d+="<table>";
+      d+="<tr>";
+        d+="<td>";
+          d+=app.t.name();
+          d+=app.t.contactInformation();
+          d+=app.t.technologies();
+          d+=app.t.personalNote();
+        d+="</td>";
+        d+="<td>";
+          d+=app.t.projects();
+          d+=app.t.positions();
+        d+="</td>";
+      d+="</tr>";
+    d+="</table>";
+  },function(){
+    d+="<table>";
+      d+="<tr>";
+        d+="<td>";
+          d+=app.t.name();
+          d+=app.t.contactInformation();
+          d+=app.t.personalNote();
+        d+="</td>";
+        d+="<td>";
+          d+=app.t.technologies();
+          d+=app.t.projects();
+          d+=app.t.positions();
+        d+="</td>";
+      d+="</tr>";
+    d+="</table>";
+  })
   return d;
 };
 
@@ -188,17 +260,17 @@ app.t.name=function(){
 app.t.contactInformation=function(){
   var d="";
   d+="<div id='contact-information' class='section'>";
-    d+="<div id='contact-email'>email: "+app.m.email+"</div>";
-    d+="<div id='contact-phone'>phone: "+app.m.phone+"</div>";
-    d+="<div id='contact-twitter'>twitter: "+app.m.twitter+"</div>";
-    d+="<div id='contact-linkedin'>linkedIn: "+app.m.linkedin+"</div>";
+    d+="<div id='contact-github'>"+app.m.github+"</div>";
+    d+="<div id='contact-email'>"+app.m.email+"</div>";
+    d+="<div id='contact-phone'>"+app.m.phone+"</div>";
+    //d+="<div id='contact-linkedin'>linkedIn: "+app.m.linkedin+"</div>";
   d+="</div>";
   return d;
 };
 
 app.t.project=function(project){
   var d="";
-  d+="<div>";
+  d+="<div class='project'>";
     d+="<span class='project-title'>"+project.title+"</span>";
     d+="<span class='project-notes'> "+project.notes+"</span>";
     d+="<div>"+project.exposition+"</div>";
@@ -222,26 +294,30 @@ app.t.technologies=function(){
   var d="";
   d+="<div class='section'>";
     d+="<div class='section-title'>Strengths</div>";
+    d+="<div class='collection'>";
       for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
         a.push("<span class='technology-strength'>"+app.m.technologies.strengths[i]+"</span>");
       }
     d+=a.join(", ");
+    d+="</div>";
     d+="<div class='section-title'>Experience</div>";
-      for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
+    d+="<div class='collection'>";
+      for (var i=0, a=[];i<app.m.technologies.experience.length;i++){
         a.push("<span class='technology-experience'>"+app.m.technologies.experience[i]+"</span>");
       }
     d+=a.join(", ");
+    d+="</div>";
   d+="</div>";
   return d;
 };
 
 app.t.position=function(position){
   var d="";
-  d+="<div>";
-    d+="<div  class='position-metadata'>";
+  d+="<div class='position'>";
+    d+="<div  class='position-metadata'>";      
+      d+="<span class='position-period'>"+position.period+"</span>";
       d+="<span class='position-title'>"+position.title+"</span>";
       d+="<span class='position-organization'> ("+position.organization+") </span>";
-      d+="<span class='position-period'>"+position.period+"</span>";
     d+="</div>";
     d+="<div>"+position.exposition+"</div>";
   d+="</div>";
@@ -264,7 +340,7 @@ app.t.personalNote=function(){
   var personalNote=app.m.personalNote;
   var d="";
   d+="<div  class='section'>";
-    d+="<div class='section-title'>A Personal Note:</div>";
+    d+="<div class='section-title'>About Me</div>";
     d+="<div id='personal-note'>"+personalNote+"</div>";
   d+="</div>";
   return d;
@@ -292,10 +368,14 @@ zi.config=function(){
       "width":"50%"
     },
     "table":{
-      "width":"100%"
+      "width":"100%",
+      "border-spacing":margin,
+      "border-collapse":"separate"
     },
     "#contact-information":{
-      "font-size":(0.1*_.random(5,8))+"em"
+      "padding-top":margin,
+      "padding-bottom":margin,
+      "font-size":(0.1*_.random(7,9))+"em"
     },
     "#name":{
       "font-size":(0.1*_.random(20,50))+"em"
@@ -304,7 +384,6 @@ zi.config=function(){
       "font-size":(0.1*_.random(8,20))+"em"
     },
     ".section":{
-      
     },
     ".screen-wrapper":{
       "background":"#fff"
@@ -314,12 +393,28 @@ zi.config=function(){
     },
     ".position-metadata":{
     },
+    ".position":{
+      "margin-top":margin,
+      "margin-bottom":margin,
+    },
+    ".project":{
+      "margin-top":margin,
+      "margin-bottom":margin,
+    },
     ".project-title":{
     },
     ".project-notes":{
     },
     ".section":{
       "margin-bottom":margin
+    },
+    ".collection":{
+      "margin-top":margin,
+      "margin-bottom":margin
+    },
+    "#personal-note":{
+      "margin-top":margin,
+      "margin-bottom":margin,
     }
   };
   
