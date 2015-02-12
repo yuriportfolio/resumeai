@@ -100,15 +100,22 @@ app.v.init=function(){
   zi.css();
   
   var d="<div class='screen-wrapper'></div>";
-  d+="<div id='navigation'><span id='increment'>+</span></span><span id='decrement'>-</span></div>";
+  d+="<div id='navigation'>";
+    d+="<span id='again'>Again!</span>";
+    d+="<span id='increment'>+</span></span><span id='decrement'>-</span>";
+  d+="</div>";
   $("body").html(d);
   $(".screen-wrapper").html(app.t.resume() );
   
-  $("#increment").on("click",function(){
+  $("body").on("click","#increment",function(){
     app.c.fontIncrement();
   });
-  $("#decrement").on("click",function(){
+  $("body").on("click","#decrement",function(){
     app.c.fontDecrement();
+  });
+  $("#again").on("click",function(){
+    zi.css();
+    $(".screen-wrapper").html(app.t.resume() );
   });
 };
 
@@ -130,8 +137,8 @@ app.t.resume=function(){
 };
 
 app.t.layouts=function(){
-  return app.t.hybrid();
-  _.sample([
+  //return app.t.hybrid();
+  return _.sample([
     app.t.sequential(),
     app.t.sideBySide(),
     app.t.hybrid()
@@ -399,17 +406,16 @@ zi.config=function(){
     },
     "#navigation":{
       "position":"fixed",
+      "height":"100%",
       "top":"0px",
-      "width":"100%",
+      "left":"0px",
       "background":"#000",
       "opacity":"0.7",
-      "overflow":"hidden",
-      "text-align":"right"
+      "overflow":"hidden"
     },
     "#navigation span":{
-      "padding":"25px",
-      "margin-right":"40px",
-      "width":"200px",
+      "padding":"15px",
+      "display":"block",
       "text-align":"center",
       "background":"#fff",
       "border":"1px solid #000",
@@ -521,7 +527,7 @@ zi.transform=function(css){
     return c;
 };
 zi.css=function(){
-    if ($("head#zi").length<1){
+    if ($("head style#zi").length<1){
         $("head").append("<style type='text/css' id='zi'></style>");
     }
     $("head style#zi").html( this.transform( this.config() ) );
