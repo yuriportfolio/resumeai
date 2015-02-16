@@ -82,6 +82,7 @@ app.m.technologies={
 
 app.c.init=function(){
   app.v.init();
+  app.v.listeners();
 };
 
 app.c.fontIncrement=function(){
@@ -103,10 +104,15 @@ app.v.init=function(){
   d+="<div id='navigation'>";
     d+="<span id='again'>Again!</span>";
     d+="<span id='increment'>+</span></span><span id='decrement'>-</span>";
+    d+="<span id='change-data'>Adjust</span>";
   d+="</div>";
   $("body").html(d);
   $(".screen-wrapper").html(app.t.resume() );
-  
+ 
+};
+
+app.v.listeners=function(){
+   
   $("body").on("click","#increment",function(){
     app.c.fontIncrement();
   });
@@ -117,8 +123,10 @@ app.v.init=function(){
     zi.css();
     $(".screen-wrapper").html(app.t.resume() );
   });
+  $("#change-data").on("click",function(){
+    app.v.inputView();
+  });
 };
-
 
 app.v.fontMod=function(){
   var d="body{font-size:"+app.m.fontSize+"em;}";
@@ -126,6 +134,10 @@ app.v.fontMod=function(){
     $("head").append("<style type='text/css' id='font-mod'></style>");
   }
   $("head style#font-mod").html(d);
+};
+
+app.v.inputView=function(){
+  $(".screen-wrapper").html(app.t.form() );
 };
 
 ////////////////////////////////////////////
@@ -388,6 +400,53 @@ app.t.personalNote=function(){
   d+="</div>";
   return d;
 };
+
+app.t.textInput=function(id,placeholder,className){
+  var id=id||"";
+  var placeholder=placeholder||"";
+  var className=className||"";
+  return "<input type='text' id='"+id+"' placeholder='"+placeholder+"' class='"+className+"'></input>";
+};
+
+app.t.priorPositionsInput=function(){
+  var d="";
+  d+="<div class='user-position-input-area'>";
+    d+=app.t.textInput(null,"organizations you've worked with in the past","user-position-organization");
+    d+=app.t.textInput(null,"your position at that organization","user-position-title");
+    d+=app.t.textInput(null,"when you worked there","user-position-period");
+  d+="</div>";
+  return d;
+};
+
+app.t.priorProjectsInput=function(){
+  var d="";
+  d+="<div class='user-project-input-area'>";
+    d+=app.t.textInput(null,"the name of a project you've worked on recently","user-project-title");
+    d+=app.t.textInput(null,"your role in the project","user-project-role");
+    d+=app.t.textInput(null,"any special notes","user-project-notes");  
+    d+=app.t.textInput(null,"explain the project in a sentence or two","user-project-exposition");
+  d+="</div>";
+  return d;
+};
+
+app.t.form=function(){
+  var d="";
+  d+=app.t.textInput("user-name","your name");
+  d+=app.t.textInput("user-email","email address");
+  d+=app.t.textInput("user-linkedin","your linkedin profile");
+  d+=app.t.textInput("user-website","your website");
+  d+=app.t.textInput("user-phonenumber","phone number");
+  d+=app.t.textInput("user-strengths","list your strengths");
+  d+=app.t.textInput("user-experience","in what areas do you have experience?");
+  d+=app.t.textInput("user-about-me","add a personal note");
+  d+=app.t.priorPositionsInput();
+  d+=app.t.priorProjectsInput();
+  d+="</div>";
+  return d;
+};
+
+
+
 
 ///////////////////////////////////////////////////////begin css
 
