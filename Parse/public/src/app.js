@@ -82,6 +82,13 @@ app.m.technologies={
 ////////////////////////////////////////////
 
 app.c.init=function(){
+  var appState=simpleStorage.get('appState');
+  if (!appState){
+    simpleStorage.set('appState',app.m);
+  } else {
+    app.m=appState;
+  }
+  
   app.v.init();
   app.v.listeners();
 };
@@ -185,7 +192,7 @@ app.v.listeners=function(){
       }
     });
 
-        
+    simpleStorage.set('appState',app.m);
   });
 };
 
