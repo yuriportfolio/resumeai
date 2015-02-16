@@ -130,7 +130,6 @@ app.v.listeners=function(){
     $(app.t.priorPositionInput() ).insertAfter(".user-position-input-area:last");
   });
     
-    
   $("body").on("click","#increment",function(){
     app.c.fontIncrement();
   });
@@ -206,8 +205,6 @@ app.v.fontMod=function(){
 
 app.v.inputView=function(){
   $(".screen-wrapper").html(app.t.form() );
-  
-  
     $("#user-name").val(app.m.name);
     $("#user-phone").val(app.m.phone);
     $("#user-email").val(app.m.email);
@@ -364,8 +361,6 @@ app.t.sequential=function(){
   return d;
 };
 
-
-
 app.t.sideBySide=function(){
   var d="";
   davis.maybe(0.5,function(){
@@ -404,7 +399,7 @@ app.t.sideBySide=function(){
 
 app.t.name=function(){
   var d="";
-  d+="<div id='name'>"+app.m.name+"</div>";
+  d+="<div id='name'>"+_.unescape(app.m.name)+"</div>";
   return d;
 };
 
@@ -415,9 +410,9 @@ app.t.photo=function(){
 app.t.contactInformation=function(){
   var d="";
   d+="<div id='contact-information' class='section'>";
-    d+="<div id='contact-github'>"+app.m.github+"</div>";
-    d+="<div id='contact-email'>"+app.m.email+"</div>";
-    d+="<div id='contact-phone'>"+app.m.phone+"</div>";
+    d+="<div id='contact-github'>"+_.unescape(app.m.github)+"</div>";
+    d+="<div id='contact-email'>"+_.unescape(app.m.email)+"</div>";
+    d+="<div id='contact-phone'>"+_.unescape(app.m.phone)+"</div>";
     //d+="<div id='contact-linkedin'>linkedIn: "+app.m.linkedin+"</div>";
   d+="</div>";
   return d;
@@ -426,9 +421,9 @@ app.t.contactInformation=function(){
 app.t.project=function(project){
   var d="";
   d+="<div class='project'>";
-    d+="<span class='project-title'>"+project.title+"</span>";
-    d+="<span class='project-notes'> "+project.notes+"</span>";
-    d+="<div>"+project.exposition+"</div>";
+    d+="<span class='project-title'>"+_.unescape(project.title)+"</span>";
+    d+="<span class='project-notes'> "+_.unescape(project.notes)+"</span>";
+    d+="<div>"+_.unescape(project.exposition)+"</div>";
   d+="</div>";
   return d;
 };
@@ -451,14 +446,14 @@ app.t.technologies=function(){
     d+="<div class='section-title'>Strengths</div>";
     d+="<div class='collection'>";
       for (var i=0, a=[];i<app.m.technologies.strengths.length;i++){
-        a.push("<span class='technology-strength'>"+app.m.technologies.strengths[i]+"</span>");
+        a.push("<span class='technology-strength'>"+_.unescape(app.m.technologies.strengths[i])+"</span>");
       }
     d+=a.join(", ");
     d+="</div>";
     d+="<div class='section-title'>Experience</div>";
     d+="<div class='collection'>";
       for (var i=0, a=[];i<app.m.technologies.experience.length;i++){
-        a.push("<span class='technology-experience'>"+app.m.technologies.experience[i]+"</span>");
+        a.push("<span class='technology-experience'>"+_.unescape(app.m.technologies.experience[i])+"</span>");
       }
     d+=a.join(", ");
     d+="</div>";
@@ -470,11 +465,11 @@ app.t.position=function(position){
   var d="";
   d+="<div class='position'>";
     d+="<div  class='position-metadata'>";      
-      d+="<span class='position-period'>"+position.period+"</span>";
-      d+="<span class='position-title'>"+position.title+"</span>";
-      d+="<span class='position-organization'> ("+position.organization+") </span>";
+      d+="<span class='position-period'>"+_.unescape(position.period)+"</span>";
+      d+="<span class='position-title'>"+_.unescape(position.title)+"</span>";
+      d+="<span class='position-organization'> ("+_.unescape(position.organization)+") </span>";
     d+="</div>";
-    d+="<div>"+position.exposition+"</div>";
+    d+="<div>"+_.unescape(position.exposition)+"</div>";
   d+="</div>";
   return d;
 };
@@ -492,11 +487,10 @@ app.t.positions=function(){
 };
 
 app.t.personalNote=function(){
-  var personalNote=app.m.personalNote;
   var d="";
   d+="<div  class='section'>";
     d+="<div class='section-title'>About Me</div>";
-    d+="<div id='personal-note'>"+personalNote+"</div>";
+    d+="<div id='personal-note'>"+_.unescape(app.m.personalNote)+"</div>";
   d+="</div>";
   return d;
 };
@@ -574,12 +568,8 @@ app.t.form=function(){
   d+="<h2>Prior Positions</h2>";
   d+=app.t.priorPositionsInput();
   d+="<input type='button' value='Save' id='save-data'></input>";
-  d+="</div>";
   return d;
 };
-
-
-
 
 ///////////////////////////////////////////////////////begin css
 
@@ -678,6 +668,13 @@ zi.config=function(){
     "input[type=text]":{
       "width":"100%"
     },
+    "#save-data":{
+      "cursor":"pointer",
+      "display":"block",
+      "margin-top":"20px",
+      "background":"#333",
+      "color":"#fff"
+    },
     ".user-position-input-area, .user-project-input-area":{
       "margin-bottom":"20px"
     }
@@ -689,13 +686,6 @@ zi.config=function(){
     css["#name"]["text-align"]="center";
     css["#name"]["padding"]=(_.random(20,50) )+"px";
   });
-  
-  /*
-  davis.maybe(0.5,function(){
-    css["#name"]["text-align"]="right";
-    css["#contact-information"]["text-align"]="right";
-  });
-  */
   
   davis.maybe(0.5,function(){
     css[".position-metadata"]["font-weight"]="bold";
