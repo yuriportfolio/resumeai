@@ -15,6 +15,7 @@ app.m.fontSize=1;
 
 app.m.name="Luke Davis";
 app.m.phone="(415) 610-2391";
+app.m.website="http://lucaswadedavis.com";
 app.m.email="lucaswadedavis@gmail.com";
 app.m.twitter="@lukedavis";
 app.m.linkedin="linkedin.com/luke";
@@ -109,22 +110,82 @@ app.v.init=function(){
   $("body").html(d);
   $(".screen-wrapper").html(app.t.resume() );
  
+  app.v.inputView();
 };
 
 app.v.listeners=function(){
-   
+       
+  $("body").on("click","#add-another-project",function(){
+    $(app.t.priorProjectInput() ).insertAfter(".user-project-input-area:last");
+  });
+
+  $("body").on("click","#add-another-position",function(){
+    $(app.t.priorPositionInput() ).insertAfter(".user-position-input-area:last");
+  });
+    
+    
   $("body").on("click","#increment",function(){
     app.c.fontIncrement();
   });
   $("body").on("click","#decrement",function(){
     app.c.fontDecrement();
   });
-  $("#again").on("click",function(){
+  $("body").on("click","#again",function(){
     zi.css();
     $(".screen-wrapper").html(app.t.resume() );
   });
-  $("#change-data").on("click",function(){
+  $("body").on("click","#change-data",function(){
     app.v.inputView();
+  });
+  
+  
+  $("body").on("click","#save-data",function(){
+    app.m.name = $("#user-name").val();
+    app.m.phone = $("#user-phone").val();
+    app.m.email = $("#user-email").val();
+    app.m.website = $("#user-website").val();
+    app.m.twitter = $("#user-twitter").val();
+    app.m.linked = $("#user-linkedin").val();
+    app.m.github = $("#user-github").val();
+    app.m.personalNote = $("#user-personal-note").val();
+    app.m.technologies.strengths = [];
+    app.m.technologies.strengths.push( $("#user-strengths").val() );
+    app.m.technologies.experience = [];
+    app.m.technologies.experience.push( $("#user-experience").val() );
+
+    app.m.projects=[];
+    $(".user-project-input-area").each(function(index,instance){
+      console.log(index);
+      var project = {};
+      
+      project.title = _.escape($(this).children(".user-project-title").val() );
+      project.role = _.escape($(this).children(".user-project-role").val() );
+      project.notes = _.escape($(this).children(".user-project-notes").val() );
+      project.exposition = _.escape($(this).children(".user-project-exposition").val() );
+      
+      if (!project.title && !project.role && !project.notes && !project.exposition){
+        
+      } else {
+        app.m.projects.push(project);
+      }
+    });
+
+    app.m.positions=[];
+    $(".user-position-input-area").each(function(index,instance){
+      var position = {};
+      
+      position.title = _.escape($(this).children(".user-position-title").val() );
+      position.organization = _.escape($(this).children(".user-position-organization").val() );
+      position.period = _.escape($(this).children(".user-position-period").val() );
+      position.exposition = _.escape($(this).children(".user-position-exposition").val() );
+            
+      if (!position.title && !position.organization && !position.period && !position.exposition){
+      } else {
+        app.m.positions.push(position);
+      }
+    });
+
+        
   });
 };
 
@@ -138,6 +199,38 @@ app.v.fontMod=function(){
 
 app.v.inputView=function(){
   $(".screen-wrapper").html(app.t.form() );
+  
+  
+    $("#user-name").val(app.m.name);
+    $("#user-phone").val(app.m.phone);
+    $("#user-email").val(app.m.email);
+    $("#user-website").val(app.m.website);
+    $("#user-twitter").val(app.m.twitter);
+    $("#user-linkedin").val(app.m.linkedin);
+    $("#user-github").val(app.m.github);
+    $("#user-personal-note").val(app.m.personalNote);
+    $("#user-strengths").val(app.m.technologies.strengths.join(", "));
+    $("#user-experience").val(app.m.technologies.experience.join(", "));
+
+    $(".user-project-input-area").each(function(index,instance){
+      var project = app.m.projects[index];
+      
+      $(this).children(".user-project-title").val(project.title);
+      $(this).children(".user-project-role").val(project.role);
+      $(this).children(".user-project-notes").val(project.notes);
+      $(this).children(".user-project-exposition").val(project.exposition);
+    });
+
+    $(".user-position-input-area").each(function(index,instance){
+      var position = app.m.positions[index];
+      
+      $(this).children(".user-position-title").val(position.title);
+      $(this).children(".user-position-organization").val(position.organization);
+      $(this).children(".user-position-period").val(position.period);
+      $(this).children(".user-position-exposition").val(position.exposition);
+    });
+
+
 };
 
 ////////////////////////////////////////////
@@ -408,17 +501,27 @@ app.t.textInput=function(id,placeholder,className){
   return "<input type='text' id='"+id+"' placeholder='"+placeholder+"' class='"+className+"'></input>";
 };
 
-app.t.priorPositionsInput=function(){
+app.t.priorPositionInput=function(){
   var d="";
   d+="<div class='user-position-input-area'>";
-    d+=app.t.textInput(null,"organizations you've worked with in the past","user-position-organization");
+    d+=app.t.textInput(null,"the name of the organization","user-position-organization");
     d+=app.t.textInput(null,"your position at that organization","user-position-title");
     d+=app.t.textInput(null,"when you worked there","user-position-period");
+    d+=app.t.textInput(null,"describe what you did there","user-position-exposition");
   d+="</div>";
   return d;
 };
 
-app.t.priorProjectsInput=function(){
+app.t.priorPositionsInput=function(){
+  var d="";
+  for (var i=0;i<app.m.positions.length;i++){
+    d+=app.t.priorPositionInput();
+  }
+  d+="<input type='button' value='Add Another' id='add-another-position'></input>";
+  return d;
+};
+
+app.t.priorProjectInput=function(){
   var d="";
   d+="<div class='user-project-input-area'>";
     d+=app.t.textInput(null,"the name of a project you've worked on recently","user-project-title");
@@ -429,18 +532,41 @@ app.t.priorProjectsInput=function(){
   return d;
 };
 
+app.t.priorProjectsInput=function(){
+  var d="";
+  for (var i=0;i<app.m.projects.length;i++){
+    d+=app.t.priorProjectInput();
+  }
+  d+="<input type='button' value='Add Another' id='add-another-project'></input>";
+  return d;
+};
+
 app.t.form=function(){
   var d="";
+  d+="<h1>Adjust Your Information</h1>";
+  d+="<h2>Name</h2>";
   d+=app.t.textInput("user-name","your name");
+  d+="<h2>Email</h2>";
   d+=app.t.textInput("user-email","email address");
+  d+="<h2>Github</h2>";
+  d+=app.t.textInput("user-github","github profile");
+  d+="<h2>Linkedin</h2>";
   d+=app.t.textInput("user-linkedin","your linkedin profile");
+  d+="<h2>Website</h2>";
   d+=app.t.textInput("user-website","your website");
-  d+=app.t.textInput("user-phonenumber","phone number");
+  d+="<h2>Phone Number</h2>";
+  d+=app.t.textInput("user-phone","phone number");
+  d+="<h2>Strengths</h2>";
   d+=app.t.textInput("user-strengths","list your strengths");
+  d+="<h2>Experience</h2>";
   d+=app.t.textInput("user-experience","in what areas do you have experience?");
-  d+=app.t.textInput("user-about-me","add a personal note");
-  d+=app.t.priorPositionsInput();
+  d+="<h2>A Personal Note</h2>";
+  d+=app.t.textInput("user-personal-note","add a personal note");
+  d+="<h2>Recent Projects</h2>";
   d+=app.t.priorProjectsInput();
+  d+="<h2>Prior Positions</h2>";
+  d+=app.t.priorPositionsInput();
+  d+="<input type='button' value='Save' id='save-data'></input>";
   d+="</div>";
   return d;
 };
@@ -462,6 +588,10 @@ zi.config=function(){
       "background":"#ccc",
       "font-size":app.m.fontSize+"em",
       "font-family":_.sample(["arial","times","garamond","verdana"])
+    },
+    "h2":{
+      "margin-bottom":"0",
+      "padding-bottom":"0"
     },
     "#navigation":{
       "position":"fixed",
@@ -537,6 +667,12 @@ zi.config=function(){
     "#personal-note":{
       "margin-top":margin,
       "margin-bottom":margin,
+    },
+    "input[type=text]":{
+      "width":"100%"
+    },
+    ".user-position-input-area, .user-project-input-area":{
+      "margin-bottom":"20px"
     }
   };
   
