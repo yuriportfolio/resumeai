@@ -35,7 +35,7 @@ app.t.splash=function(){
     d+="<input type='text' placeholder='Organization'></input>";
     
     d+="<input type='text' placeholder='Role'></input>";
-    d+="<textarea rows='10' placeholder='Bullshit'></textarea>";  
+    d+="<textarea rows='22' placeholder='Bullshit'></textarea>";  
   d+="<input type='button' value='Save'></input>";
   d+="</div>";    
   return d;
