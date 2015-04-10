@@ -28,7 +28,7 @@ app.v.listeners=function(){
     var organization = _.escape($("#organization").val() );
     var role = _.escape($("#role").val() );
     var description = _.escape($("#description").val() );
-    var description = _.escape($("#coverLetter").val() );
+    var coverLetter = _.escape($("#coverLetter").val() );
     $("#organization").val("");
     $("#role").val("");
     $("#description").val("");
