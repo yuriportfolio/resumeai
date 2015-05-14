@@ -14,6 +14,7 @@ app.t={};
 app.m.fontSize=1;
 
 app.m.genome = [];
+app.m.genePool = [];
 app.m.name="Luke Davis";
 app.m.phone="(415) 610-2391";
 app.m.website="http://lucaswadedavis.com";
@@ -90,15 +91,19 @@ app.c.init=function(){
     app.m=appState;
   }
   
-  if (app.m.genome){
-    if (app.m.genome.length<1){
-      for (var i=0;i<1000;i++){
-        genome.push(0.5);
-      }
-    }
-  } else {
-    
+  if (!app.m.genePool){
+    app.m.genePool = [];
   }
+  
+  for (var i=0, genome = [];i<100;genome.push(0.5), i++){}
+  
+  if (app.m.genome){
+    if (app.m.genome.length<1){ app.m.genome = genome;}
+  } else {
+    app.m.genome = genome;
+  }
+
+  
   
   app.v.init();
   app.v.listeners();
@@ -148,11 +153,27 @@ app.v.listeners=function(){
     app.c.fontDecrement();
   });
   $("body").on("click","#again",function(){
+    for (var i=0, genome=[]; i<100 ; genome.push(0.5), i++){}
+    app.m.genome = davis.darwin([genome],app.m.genePool);
+    for (var i=0;i<app.m.genome.length;i++){
+      app.m.genome[i] = Math.min(1,Math.max(0,darwa.float(app.m.genome[i],0.3) ) );
+    }
     zi.css();
     $(".screen-wrapper").html(app.t.resume() );
   });
   $("body").on("click","#change-data",function(){
     app.v.inputView();
+  });
+  
+  $("body").keypress(function(event) {
+		if (event.which == 108) {
+		  //console.log("LOVE!");
+		  if (app.m.genome.length>0){
+		    app.m.genePool.push(app.m.genome);
+		  }
+		}
+		
+    simpleStorage.set('appState',app.m);
   });
   
   
@@ -258,10 +279,10 @@ app.t.resume=function(){
 app.t.layouts=function(){
   //return app.t.hybrid();
   var layout = app.t.sequential();
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[12],function(){
     layout = app.t.sideBySide();
   });
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[13],function(){
     layout = app.t.hybrid();
   })
   return layout;
@@ -269,7 +290,7 @@ app.t.layouts=function(){
 
 app.t.hybrid=function(){
   var d="";
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[14],function(){
     d+="<table>";
     d+="<tr>";
       d+="<td colspan=2>";
@@ -323,7 +344,7 @@ app.t.hybrid=function(){
 
 app.t.sequential=function(){
   var d="";
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[15],function(){
     d+="<table>";
     d+="<tr>";
       d+="<td>";
@@ -376,7 +397,7 @@ app.t.sequential=function(){
 
 app.t.sideBySide=function(){
   var d="";
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[16],function(){
     d+="<table>";
       d+="<tr>";
         d+="<td>";
@@ -693,14 +714,14 @@ zi.config=function(){
     }
   };
   
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[17],function(){
     css["#name"]["color"]="#fff";
     css["#name"]["background"]=grey;
     css["#name"]["text-align"]="center";
     css["#name"]["padding"]=(_.random(20,50) )+"px";
   });
   
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[18],function(){
     css[".position-metadata"]["font-weight"]="bold";
     css[".project-title"]["font-weight"]="bold";
     css[".project-notes"]["font-weight"]="bold";
@@ -710,7 +731,7 @@ zi.config=function(){
     css[".project-notes"]["color"]=grey;
   });
   
-  davis.maybe(0.5,function(){
+  davis.maybe(app.m.genome[19],function(){
     css[".section"]["border-bottom"]=(_.random(0,5)+"px solid "+grey);
   },function(){
     css[".section-title"]["color"]="#fff";
