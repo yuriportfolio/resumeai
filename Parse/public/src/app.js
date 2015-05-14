@@ -13,6 +13,7 @@ app.t={};
 
 app.m.fontSize=1;
 
+app.m.genome = [];
 app.m.name="Luke Davis";
 app.m.phone="(415) 610-2391";
 app.m.website="http://lucaswadedavis.com";
@@ -89,6 +90,16 @@ app.c.init=function(){
     app.m=appState;
   }
   
+  if (app.m.genome){
+    if (app.m.genome.length<1){
+      for (var i=0;i<1000;i++){
+        genome.push(0.5);
+      }
+    }
+  } else {
+    
+  }
+  
   app.v.init();
   app.v.listeners();
 };
@@ -161,7 +172,6 @@ app.v.listeners=function(){
 
     app.m.projects=[];
     $(".user-project-input-area").each(function(index,instance){
-      console.log(index);
       var project = {};
       
       project.title = _.escape($(this).children(".user-project-title").val() );
@@ -247,11 +257,14 @@ app.t.resume=function(){
 
 app.t.layouts=function(){
   //return app.t.hybrid();
-  return _.sample([
-    app.t.sequential(),
-    app.t.sideBySide(),
-    app.t.hybrid()
-    ]);
+  var layout = app.t.sequential();
+  davis.maybe(0.5,function(){
+    layout = app.t.sideBySide();
+  });
+  davis.maybe(0.5,function(){
+    layout = app.t.hybrid();
+  })
+  return layout;
 };
 
 app.t.hybrid=function(){
