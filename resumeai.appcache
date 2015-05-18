@@ -1,0 +1,19 @@
+CACHE MANIFEST
+#2015-05-18 v1
+
+# Explicitly cached 'master entries'.
+CACHE:
+./index.html
+./lib/jquery.js
+./lib/underscore.js
+./lib/darwa.js
+./lib/simple-storage.js
+./lib/davis.js
+./src/app.js
+
+# Resources that require the user to be online.
+NETWORK:
+*
+
+FALLBACK:
+#probably put something here eventually
