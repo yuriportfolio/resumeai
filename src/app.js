@@ -25,6 +25,12 @@ app.m.github="http://github.com/lucaswadedavis";
 
 app.m.projects=[
   {
+    title:"Holograf",
+    exposition:"Displays Javascript programs in 3D for education and visual debugging.",
+    role: "Product Owner, 3D expert",
+    notes: "(THREE.js, Esprima and Abstract Syntax Trees)"
+  },
+  {
     title:"Lexponential",
     exposition:"Accelerates foreign language vocabulary acquisition by using Zipf’s Law and the Google Translate API",
     role:"Creator",
@@ -250,19 +256,19 @@ app.v.inputView=function(){
     $(".user-project-input-area").each(function(index,instance){
       var project = app.m.projects[index];
       
-      $(this).children(".user-project-title").val(project.title);
-      $(this).children(".user-project-role").val(project.role);
-      $(this).children(".user-project-notes").val(project.notes);
-      $(this).children(".user-project-exposition").val(project.exposition);
+      $(this).children(".user-project-title").val(_.unescape(project.title));
+      $(this).children(".user-project-role").val(_.unescape(project.role));
+      $(this).children(".user-project-notes").val(_.unescape(project.notes));
+      $(this).children(".user-project-exposition").val(_.unescape(project.exposition));
     });
 
     $(".user-position-input-area").each(function(index,instance){
       var position = app.m.positions[index];
       
-      $(this).children(".user-position-title").val(position.title);
-      $(this).children(".user-position-organization").val(position.organization);
-      $(this).children(".user-position-period").val(position.period);
-      $(this).children(".user-position-exposition").val(position.exposition);
+      $(this).children(".user-position-title").val(_.unescape(position.title));
+      $(this).children(".user-position-organization").val(_.unescape(position.organization));
+      $(this).children(".user-position-period").val(_.unescape(position.period));
+      $(this).children(".user-position-exposition").val(_.unescape(position.exposition));
     });
 
 
