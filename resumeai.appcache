@@ -1,15 +1,15 @@
 CACHE MANIFEST
-#2015-05-18 v2
+#2015-06-07 v1
 
 # Explicitly cached 'master entries'.
 CACHE:
-./Parse/public/index.html
-./Parse/public/lib/jquery.js
-./Parse/public/lib/underscore.js
-./Parse/public/lib/darwa.js
-./Parse/public/lib/simple-storage.js
-./Parse/public/lib/davis.js
-./Parse/public/src/app.js
+./index.html
+./lib/jquery.js
+./lib/underscore.js
+./lib/darwa.js
+./lib/simple-storage.js
+./lib/davis.js
+./src/app.js
 
 # Resources that require the user to be online.
 NETWORK:
