@@ -310,8 +310,13 @@ app.t.hybrid=function(){
       d+="</td>";
       d+="<td>";
         d+=app.t.technologies();
-        d+=app.t.projects();
-        d+=app.t.positions();
+        davis.maybe(app.m.genome[20],function(){
+          d+=app.t.positions();
+          d+=app.t.projects();
+        }, function(){
+          d+=app.t.projects();
+          d+=app.t.positions();
+        });
       d+="</td>";
     d+="</tr>";
     d+="</table>";
@@ -332,11 +337,19 @@ app.t.hybrid=function(){
       d+="</td>";
     d+="</tr>";
     d+="<tr>";
+    davis.maybe(app.m.genome[20],function(){
       d+="<td class='col-2'>";
         d+=app.t.projects();
       d+="</td><td>";
         d+=app.t.positions();
       d+="</td>";
+    }, function(){
+      d+="<td class='col-2'>";
+        d+=app.t.positions();
+      d+="</td><td>";
+        d+=app.t.projects();
+      d+="</td>";
+    });
     d+="</tr>";
     d+="<tr>";
       d+="<td colspan=2>";
@@ -363,8 +376,13 @@ app.t.sequential=function(){
     d+="<tr>";
       d+="<td colspan=2>";
         d+=app.t.technologies();
-        d+=app.t.projects();
-        d+=app.t.positions();
+        davis.maybe(app.m.genome[20],function(){
+          d+=app.t.positions();
+          d+=app.t.projects();
+        }, function(){
+          d+=app.t.projects();
+          d+=app.t.positions();
+        });
         d+=app.t.personalNote();
       d+="</td>";
     d+="</tr>";
@@ -385,11 +403,19 @@ app.t.sequential=function(){
       d+="</td>";
     d+="</tr>";
     d+="<tr>";
+    davis.maybe(app.m.genome[20],function(){
       d+="<td class='col-2'>";
         d+=app.t.projects();
       d+="</td><td>";
         d+=app.t.positions();
       d+="</td>";
+    }, function(){
+      d+="<td class='col-2'>";
+        d+=app.t.positions();
+      d+="</td></td>";
+        d+=app.t.projects();
+      d+="</td>";
+    });
     d+="</tr>";
     d+="<tr>";
       d+="<td colspan=2>";
@@ -413,8 +439,13 @@ app.t.sideBySide=function(){
           d+=app.t.personalNote();
         d+="</td>";
         d+="<td>";
-          d+=app.t.projects();
-          d+=app.t.positions();
+          davis.maybe(app.m.genome[20],function(){
+            d+=app.t.projects();
+            d+=app.t.positions();
+          }, function(){
+            d+=app.t.positions();
+            d+=app.t.projects();
+          });
         d+="</td>";
       d+="</tr>";
     d+="</table>";
@@ -428,8 +459,13 @@ app.t.sideBySide=function(){
         d+="</td>";
         d+="<td>";
           d+=app.t.technologies();
-          d+=app.t.projects();
-          d+=app.t.positions();
+          davis.maybe(app.m.genome[20],function(){
+            d+=app.t.projects();
+            d+=app.t.positions();
+          }, function(){
+            d+=app.t.positions();
+            d+=app.t.projects();
+          });
         d+="</td>";
       d+="</tr>";
     d+="</table>";
