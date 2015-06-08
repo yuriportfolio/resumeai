@@ -26,13 +26,13 @@ app.m.github="http://github.com/lucaswadedavis";
 app.m.projects=[
   {
     title:"Holograf",
-    exposition:"Displays Javascript programs in 3D for education and visual debugging.",
+    exposition:"Displays Javascript programs in 3D for education and visual debugging",
     role: "Product Owner, 3D expert",
     notes: "(THREE JS, Esprima and Abstract Syntax Trees)"
   },
   {
     title:"Counterspell",
-    exposition:"Counters cyberbullying by replacing 'curses' (abusive text) with 'counterspells' on any webpage the user visits.",
+    exposition:"Counters cyberbullying by replacing 'curses' (abusive text) with 'counterspells' on any webpage the user visits",
     role:"Creator",
     notes:"(Chrome Extension, Regular Expressions)"
   },
