@@ -62,7 +62,7 @@ app.m.projects=[
   },
   {
     title:"Iconaria",
-    exposition:"machine-generated art: logos for open source projects",
+    exposition:"Machine-generated art: logos for open source projects",
     role:"Creator",
     notes:"(HTML5 Canvas, Procedural Generation)"
   }
