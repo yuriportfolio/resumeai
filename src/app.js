@@ -497,7 +497,7 @@ app.t.name=function(){
 
 app.t.photo=function(){
   if (app.m.showPhoto === true){
-    return "<img src='./images/profile-wide.jpg' alt='me' width='280px' />";
+    return "<img src='./images/profile-wide.jpg' alt='me' width='"+(app.m.fontSize*275)+"px' />";
   } else {
     return "";
   }
