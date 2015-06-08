@@ -12,7 +12,7 @@ app.t={};
 ////////////////////////////////////////////
 
 app.m.fontSize=1;
-
+app.m.showPhoto = false;
 app.m.genome = [];
 app.m.genePool = [];
 app.m.name="Luke Davis";
@@ -28,7 +28,13 @@ app.m.projects=[
     title:"Holograf",
     exposition:"Displays Javascript programs in 3D for education and visual debugging.",
     role: "Product Owner, 3D expert",
-    notes: "(THREE.js, Esprima and Abstract Syntax Trees)"
+    notes: "(THREE JS, Esprima and Abstract Syntax Trees)"
+  },
+  {
+    title:"Counterspell",
+    exposition:"Counters cyberbullying by replacing 'curses' (abusive text) with 'counterspells' on any webpage the user visits.",
+    role:"Creator",
+    notes:"(Chrome Extension, Regular Expressions)"
   },
   {
     title:"Lexponential",
@@ -40,7 +46,7 @@ app.m.projects=[
     title:"ResumeAI",
     exposition:"AI resume designer (crafted the resume you're reading now, actually)",
     role:"Creator",
-    notes:"(Evolutionary Algorithm, CSS3 Print Layouts)"
+    notes:"(Evolutionary Algorithm, CSS3, Offline-First)"
   },
   {
     title:"Faux Poe",
@@ -64,8 +70,14 @@ app.m.projects=[
 
 app.m.positions=[
   {
+    title:"Hacker in Residence",
+    exposition:"Mentored 100+ students in an advanced Software Engineering Immersive course over 3 months, and created during the time of the residency, a simple yet novel FRP framework for SPAs, a CSS compiler, a mutation engine for evolutionary algorithms, and a Chrome extension for passive cyberbullying defense",
+    period:"2015",
+    organization:"Hack Reactor: Instruction Team"
+  },
+  {
     title:"Software Engineer",
-    exposition:"Built over 2 dozen user-facing applications used daily by over REDACTED individuals, in areas spanning REDACTED, REDACTED, scheduling, productivity tools, and data visualization",
+    exposition:"Built over 2 dozen user-facing applications used daily by operators pursuing national level military objectives, saving over 10,000 man-hours of work in the first year alone",
     period:"2013-2014",
     organization:"NSA"},
   {
@@ -83,8 +95,8 @@ app.m.positions=[
 app.m.personalNote="Vegetarian, Lover of Dinosaurs and Space-Things, Southerner, Darwinian";
 
 app.m.technologies={
-  strengths:["Evolutionary Algormithms","Javascript","Node","Express","Backbone","jQuery","HTML5 Canvas","Data Visualization","Git"],
-  experience:["Python","SQL","Angular","Mongo","REST","Continuous Intigration (Travis, Circle CI, etc...)","TDD (Mocha, Chai, etc...)"]
+  strengths:["Evolutionary Algormithms","Javascript","Node","THREE JS","TDD (Mocha, Chai, etc...)","jQuery","HTML5 Canvas","Linux","Git"],
+  experience:["Python","SQL","VIM","Data Visualization","Angular","Mongo","REST","APIs","Continuous Integration","Express","Backbone"]
 };
 
 ////////////////////////////////////////////
@@ -287,9 +299,11 @@ app.t.layouts=function(){
   var layout = app.t.sequential();
   davis.maybe(app.m.genome[12],function(){
     layout = app.t.sideBySide();
+    console.log("sidebyside");
   });
   davis.maybe(app.m.genome[13],function(){
     layout = app.t.hybrid();
+    console.log("hybrid");
   })
   return layout;
 };
@@ -325,7 +339,7 @@ app.t.hybrid=function(){
     d+="<tr>";
       d+="<td>";
         d+=app.t.name();
-        d+=app.t.photo();
+       // d+=app.t.photo();
       d+="</td>";
       d+="<td>";
         d+=app.t.contactInformation();
@@ -412,7 +426,7 @@ app.t.sequential=function(){
     }, function(){
       d+="<td class='col-2'>";
         d+=app.t.positions();
-      d+="</td></td>";
+      d+="</td><td>";
         d+=app.t.projects();
       d+="</td>";
     });
@@ -434,6 +448,7 @@ app.t.sideBySide=function(){
       d+="<tr>";
         d+="<td>";
           d+=app.t.name();
+          d+=app.t.photo();
           d+=app.t.contactInformation();
           d+=app.t.technologies();
           d+=app.t.personalNote();
@@ -454,6 +469,7 @@ app.t.sideBySide=function(){
       d+="<tr>";
         d+="<td>";
           d+=app.t.name();
+          d+=app.t.photo();
           d+=app.t.contactInformation();
           d+=app.t.personalNote();
         d+="</td>";
@@ -480,7 +496,11 @@ app.t.name=function(){
 };
 
 app.t.photo=function(){
-  return "<div id='canvas'></div>";
+  if (app.m.showPhoto === true){
+    return "<img src='./images/profile-wide.jpg' alt='me' width='280px' />";
+  } else {
+    return "";
+  }
 };
 
 app.t.contactInformation=function(){
