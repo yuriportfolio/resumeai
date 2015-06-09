@@ -95,7 +95,7 @@ app.m.positions=[
 app.m.personalNote="Vegetarian, Lover of Dinosaurs and Space-Things, Southerner, Darwinian";
 
 app.m.technologies={
-  strengths:["Evolutionary Algormithms","Javascript","Node","THREE JS","TDD (Mocha, Chai, etc...)","jQuery","HTML5 Canvas","Linux","Git"],
+  strengths:["Evolutionary Algorithms","Javascript","Node","THREE JS","TDD (Mocha, Chai, etc...)","jQuery","HTML5 Canvas","Linux","Git"],
   experience:["Python","SQL","VIM","Data Visualization","Angular","Mongo","REST","APIs","Continuous Integration","Express","Backbone"]
 };
 
