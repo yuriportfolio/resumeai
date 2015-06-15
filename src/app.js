@@ -168,10 +168,10 @@ app.v.listeners=function(){
   $("body").on("click","#toggle-menu",function(){
     if (!toggled){
       toggled = !toggled;
-      $(".ancillary-text").animate({"width":"toggle"});
+      $(".ancillary-text").hide();
     } else {
       toggled = !toggled;
-      $(".ancillary-text").animate({"width":"toggle"});
+      $(".ancillary-text").fadeIn("fast");
     }
   });
 
