@@ -166,7 +166,7 @@ app.v.listeners=function(){
   var toggled = false; 
 
   $("body").on("click","#toggle-menu",function(){
-    if (!toggled){
+    if (toggled){
       toggled = !toggled;
       $(".ancillary-text").hide();
     } else {
@@ -749,6 +749,7 @@ zi.config=function(){
     },
     "#navigation span.ancillary-text":{
       "display":"inline",
+      "display":"none",
       "border":"0",
       "padding":"0",
       "margin":"0"
