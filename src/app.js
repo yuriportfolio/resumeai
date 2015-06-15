@@ -20,7 +20,7 @@ app.m.phone="(415) 610-2391";
 app.m.website="http://lucaswadedavis.com";
 app.m.email="lucaswadedavis@gmail.com";
 app.m.twitter="@lukedavis";
-app.m.linkedin="linkedin.com/luke";
+app.m.linkedin="http://linkedin.com/in/lucaswadedavis";
 app.m.github="http://github.com/lucaswadedavis";
 
 app.m.projects=[
@@ -99,14 +99,16 @@ app.m.technologies={
   experience:["Python","SQL","VIM","Data Visualization","Angular","Mongo","REST","APIs","Continuous Integration","Express","Backbone"]
 };
 
+app.m.coverLetters = [];
+
 ////////////////////////////////////////////
 
 app.c.init=function(){
   var appState=simpleStorage.get('appState');
   if (!appState){
     simpleStorage.set('appState',app.m);
-  } else {
-    app.m=appState;
+  } else { 
+    _.extend(app.m,appState);
   }
   
   if (!app.m.genePool){
@@ -127,6 +129,10 @@ app.c.init=function(){
   app.v.listeners();
 };
 
+app.c.eraseData=function(){
+  simpleStorage.set('appState',undefined);
+};
+
 app.c.fontIncrement=function(){
   app.m.fontSize+=0.02;
   app.v.fontMod();
@@ -144,9 +150,11 @@ app.v.init=function(){
   
   var d="<div class='screen-wrapper'></div>";
   d+="<div id='navigation'>";
-    d+="<span id='again'>Again!</span>";
+    d+="<span id='toggle-menu'>Menu</span>";
+    d+="<span id='again'>New <span class='ancillary-text'>Resume Layout!</span></span>";
     d+="<span id='increment'>+</span></span><span id='decrement'>-</span>";
-    d+="<span id='change-data'>Adjust</span>";
+    d+="<span id='change-data'><span class='ancillary-text'>Adjust Data</span></span>";
+    d+="<span id='erase-data'><span class='ancillary-text'>Erase Saved Data</span></span>";
   d+="</div>";
   $("body").html(d);
   $(".screen-wrapper").html(app.t.resume() );
@@ -155,7 +163,18 @@ app.v.init=function(){
 };
 
 app.v.listeners=function(){
-       
+  var toggled = false; 
+
+  $("body").on("click","#toggle-menu",function(){
+    if (!toggled){
+      toggled = !toggled;
+      $(".ancillary-text").animate({"width":"toggle"});
+    } else {
+      toggled = !toggled;
+      $(".ancillary-text").animate({"width":"toggle"});
+    }
+  });
+
   $("body").on("click","#add-another-project",function(){
     $(app.t.priorProjectInput() ).insertAfter(".user-project-input-area:last");
   });
@@ -164,6 +183,10 @@ app.v.listeners=function(){
     $(app.t.priorPositionInput() ).insertAfter(".user-position-input-area:last");
   });
     
+  $("body").on("click","#erase-data",function(){
+    app.c.eraseData();
+  });
+
   $("body").on("click","#increment",function(){
     app.c.fontIncrement();
   });
@@ -287,6 +310,7 @@ app.v.inputView=function(){
 };
 
 ////////////////////////////////////////////
+
 
 app.t.resume=function(){
   var d="";
@@ -638,6 +662,22 @@ app.t.priorProjectsInput=function(){
   return d;
 };
 
+app.t.coverLetterInput=function(){
+  var d = "";
+  d+="<div class='lead-input-area'>";
+    d+=app.t.textInput(null,"cover letter info goes here","cover-letter");
+  d+="</div>";
+  return d;
+};
+
+app.t.coverLettersInput=function(){
+  var d = "";
+  for (var i=0;i<app.m.coverLetters.length;i++){
+    d+=app.t.coverLetterInput();
+  }
+  return d;
+};
+
 app.t.form=function(){
   var d="";
   d+="<h1>Adjust Your Information</h1>";
@@ -663,6 +703,7 @@ app.t.form=function(){
   d+=app.t.priorProjectsInput();
   d+="<h2>Prior Positions</h2>";
   d+=app.t.priorPositionsInput();
+  d+=app.t.coverLettersInput();
   d+="<input type='button' value='Save' id='save-data'></input>";
   return d;
 };
@@ -705,6 +746,12 @@ zi.config=function(){
       "font-size":"20px",
       "font-weight":"bold",
       "font-family":"courier"
+    },
+    "#navigation span.ancillary-text":{
+      "display":"inline",
+      "border":"0",
+      "padding":"0",
+      "margin":"0"
     },
     "table td":{
       "vertical-align":"top"
