@@ -23,6 +23,13 @@ app.m.twitter="@lukedavis";
 app.m.linkedin="http://linkedin.com/in/lucaswadedavis";
 app.m.github="http://github.com/lucaswadedavis";
 
+app.m.coverLetters = [
+  {
+    text:"Here's some cover letter text",
+    organization:"LukeX"
+  }
+];
+
 app.m.projects=[
   {
     title:"Holograf",
@@ -69,8 +76,14 @@ app.m.projects=[
 ];
 
 app.m.positions=[
+  { 
+    title:"Software Engineer",
+    exposition:"Built software used to command the largest fleet of satellites ever flown, and understand the data coming back down to Earth. Special focus on data visualization using D3, C3, Plotly, front-end work with React, and back-end work with Python, Django, Flask, Celery, ZMQ, and AWS.",
+    period:"2015-2016",
+    organization:"Planet Labs: Mission Control"
+  },
   {
-    title:"Hacker in Residence",
+    title:"Shepherd",
     exposition:"Mentored 100+ students in an advanced Software Engineering Immersive course over 3 months, and created during the time of the residency, a simple yet novel FRP framework for SPAs, a CSS compiler, a mutation engine for evolutionary algorithms, and a Chrome extension for passive cyberbullying defense",
     period:"2015",
     organization:"Hack Reactor: Instruction Team"
@@ -95,11 +108,10 @@ app.m.positions=[
 app.m.personalNote="Vegetarian, Lover of Dinosaurs and Space-Things, Southerner, Darwinian";
 
 app.m.technologies={
-  strengths:["Evolutionary Algorithms","Javascript","Node","THREE JS","TDD (Mocha, Chai, etc...)","jQuery","HTML5 Canvas","Linux","Git"],
-  experience:["Python","SQL","VIM","Data Visualization","Angular","Mongo","REST","APIs","Continuous Integration","Express","Backbone"]
+  strengths:["Genetic Algorithms","Javascript","Data Visualization","APIs","REST","React","D3","jQuery","HTML5 Canvas","Python","Django","Linux","VIM","Git"],
+  experience:["AWS","Flask","ZMQ","SQL","Node","Angular","TDD","CI","Express","Backbone"]
 };
 
-app.m.coverLetters = [];
 
 ////////////////////////////////////////////
 
@@ -182,6 +194,10 @@ app.v.listeners=function(){
   $("body").on("click","#add-another-position",function(){
     $(app.t.priorPositionInput() ).insertAfter(".user-position-input-area:last");
   });
+
+  $("body").on("click","#add-another-cover-letter",function(){
+    $(app.t.coverLetterInput() ).insertAfter(".cover-letter-input-area:last");
+  });
     
   $("body").on("click","#erase-data",function(){
     app.c.eraseData();
@@ -231,7 +247,7 @@ app.v.listeners=function(){
     app.m.technologies.strengths.push( $("#user-strengths").val() );
     app.m.technologies.experience = [];
     app.m.technologies.experience.push( $("#user-experience").val() );
-
+    
     app.m.projects=[];
     $(".user-project-input-area").each(function(index,instance){
       var project = {};
@@ -261,6 +277,17 @@ app.v.listeners=function(){
       } else {
         app.m.positions.push(position);
       }
+    });
+
+
+    app.m.coverLetters = [];
+    $(".cover-letter-input-area").each(function(index,instance){
+      var coverLetter = {};
+      
+      coverLetter.text = _.escape($(this).children(".cover-letter-text").val() );
+
+      if (coverLetter.text){ app.m.coverLetters.push(coverLetter) };
+
     });
 
     simpleStorage.set('appState',app.m);
@@ -306,6 +333,11 @@ app.v.inputView=function(){
       $(this).children(".user-position-exposition").val(_.unescape(position.exposition));
     });
 
+    $(".cover-letter-input-area").each(function(index,instance){
+      var coverLetter = app.m.coverLetters[index];
+
+      $(this).children(".cover-letter-text").val(_.unescape(coverLetter.text) );
+    });
 
 };
 
@@ -664,8 +696,8 @@ app.t.priorProjectsInput=function(){
 
 app.t.coverLetterInput=function(){
   var d = "";
-  d+="<div class='lead-input-area'>";
-    d+=app.t.textInput(null,"cover letter info goes here","cover-letter");
+  d+="<div class='cover-letter-input-area'>";
+    d+=app.t.textInput(null,"cover letter info goes here","cover-letter-text");
   d+="</div>";
   return d;
 };
@@ -675,6 +707,7 @@ app.t.coverLettersInput=function(){
   for (var i=0;i<app.m.coverLetters.length;i++){
     d+=app.t.coverLetterInput();
   }
+  d+="<input type='button' value='Add Another' id='add-another-cover-letter'></input>";
   return d;
 };
 
@@ -703,6 +736,7 @@ app.t.form=function(){
   d+=app.t.priorProjectsInput();
   d+="<h2>Prior Positions</h2>";
   d+=app.t.priorPositionsInput();
+  d+="<h2>Cover Letters</h2>";
   d+=app.t.coverLettersInput();
   d+="<input type='button' value='Save' id='save-data'></input>";
   return d;
