@@ -12,7 +12,7 @@ app.t={};
 ////////////////////////////////////////////
 
 app.m.fontSize=1;
-app.m.showPhoto = false;
+app.m.showPhoto = true;
 app.m.genome = [];
 app.m.genePool = [];
 app.m.name="Luke Davis";
@@ -78,15 +78,15 @@ app.m.projects=[
 app.m.positions=[
   { 
     title:"Software Engineer",
+    exposition:"Used JavaScript and Python to make the largest network of funding in history for the creative class actually work. Built features used by millions of users, internal tools to prevent and mitigate fraud, and models to predict ROI in multi-billion dollar markets.",
+    period:"2016",
+    organization:"Patreon"
+  },
+  { 
+    title:"Software Engineer",
     exposition:"Built software used to command the largest fleet of satellites ever flown, and understand the data coming back down to Earth. Special focus on data visualization using D3, C3, Plotly, front-end work with React, and back-end work with Python, Django, Flask, Celery, ZMQ, and AWS.",
     period:"2015-2016",
     organization:"Planet Labs: Mission Control"
-  },
-  {
-    title:"Shepherd",
-    exposition:"Mentored 100+ students in an advanced Software Engineering Immersive course over 3 months, and created during the time of the residency, a simple yet novel FRP framework for SPAs, a CSS compiler, a mutation engine for evolutionary algorithms, and a Chrome extension for passive cyberbullying defense",
-    period:"2015",
-    organization:"Hack Reactor: Instruction Team"
   },
   {
     title:"Software Engineer",
@@ -99,16 +99,21 @@ app.m.positions=[
     period:"2011-2013",
     organization:"NSA"},
   {
-    title:"Cryptologic Technician, Interpretive",
+    title:"Cryptologist: Arabic Language",
     exposition:"Graduated from the intensive two year Modern Standard Arabic training program at the Defense Language Institute and went on to become an Arabic translator at the National Security Agency during the last days of the  American drawdown in Iraq and the beginning of the Arab Spring",
     period:"2009-2011",
-    organization:"USN"}
+    organization:"USN"},
+  {
+    title:"Founder",
+    exposition:"Created a genetic algorithm based application that designed website templates, and used that tool to build Drupal - based webapps for clients operating in a variety of domains, from university departments to real-estate brokers.",
+    period:"2007-2008",
+    organization:"ArcRails WebDevelopment"}
 ];
 
 app.m.personalNote="Vegetarian, Lover of Dinosaurs and Space-Things, Southerner, Darwinian";
 
 app.m.technologies={
-  strengths:["Genetic Algorithms","Javascript","Data Visualization","APIs","REST","React","D3","jQuery","HTML5 Canvas","Python","Django","Linux","VIM","Git"],
+  strengths:["Javascript","Data Visualization","APIs","REST","React","D3","jQuery","HTML5 Canvas","Python","Django","Linux","VIM","Git"],
   experience:["AWS","Flask","ZMQ","SQL","Node","Angular","TDD","CI","Express","Backbone"]
 };
 
